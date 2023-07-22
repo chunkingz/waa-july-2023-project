@@ -43,16 +43,12 @@ const MyRoutes = () => {
 
 
 function App() {
-  // const location = useLocation();
-  // const hideNavbarRoutes = ['/sign-in'];
-  // const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname);
 
   return (
     <Router>
       <PrimeReactProvider>
         <div className="App">
           <div className="container">
-            {/* {shouldShowNavbar && <Navbar />} */}
             <Navbar />
             <div className="content">
               <MyRoutes />

@@ -7,6 +7,8 @@ import org.apache.tika.mime.MediaType;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import waa.miu.AlumniManagementPortal.dto.StudentDto;
+import waa.miu.AlumniManagementPortal.entity.Address;
 import waa.miu.AlumniManagementPortal.entity.Student;
 import waa.miu.AlumniManagementPortal.repository.StudentRepo;
 
@@ -15,16 +17,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService{
 
     private final StudentRepo studentRepo;
+    private final AddressService addressService;
 
     @Override
     public List<Student> findAll() {
-        return studentRepo.findAll();
+        return studentRepo.findAllActiveStudents();
     }
 
     @Override
@@ -55,13 +59,32 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public Student create(Student student) {
-        if (student.getCv() != null && !student.getCv().isEmpty()) {
-            String studentCVPath = processCV(student);
-            student.setCv(studentCVPath);
-        }
-        return studentRepo.save(student);
+    public Student create(StudentDto studentDto) {
+        Address newAddress = addressService.createAddress(studentDto.getAddress());
+        Student newStudent = new Student();
+        newStudent.setFirstName(studentDto.getFirstName());
+        newStudent.setLastName(studentDto.getLastName());
+        newStudent.setEmail(studentDto.getEmail());
+//        newStudent.setPassword(passwordEncoder.encode(studentDto.getPassword()));
+        newStudent.setPassword(studentDto.getPassword());
+        newStudent.setPhone(studentDto.getPhone());
+        newStudent.setStudentId(studentDto.getStudentId());
+        newStudent.setCv(studentDto.getCv());
+        newStudent.setIsCurrentlyEmployed(studentDto.getIsCurrentlyEmployed());
+        newStudent.setIsDeleted(studentDto.getIsDeleted());
+        newStudent.setAddress(newAddress);
+        newStudent.setRole(studentDto.getRole());
+        return studentRepo.save(newStudent);
     }
+
+//    @Override
+//    public Student create(Student student) {
+//        if (student.getCv() != null && !student.getCv().isEmpty()) {
+//            String studentCVPath = processCV(student);
+//            student.setCv(studentCVPath);
+//        }
+//        return studentRepo.save(student);
+//    }
 
     private @NotNull String processCV(@NotNull Student student) {
         String base64value = student.getCv();
@@ -108,6 +131,49 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public void delete(Long id) {
-        studentRepo.deleteById(id);
+//        studentRepo.deleteById(id);
+        Student existingStudent = findById(id);
+        existingStudent.setIsDeleted(existingStudent.getIsDeleted());
+        studentRepo.save(existingStudent);
+    }
+
+    @Override
+    public List<Map<String, Integer>> getStudentsPerState() {
+        Map<String, Integer> map = new HashMap<>();
+        List<Student> studentList = findAll();
+
+        for (Student s : studentList) {
+            String state = s.getAddress().getState();
+            map.put(state, map.getOrDefault(state, 0) + 1);
+        }
+
+        List<Map<String, Integer>> result = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            Map<String, Integer> stateCountMap = new HashMap<>();
+            stateCountMap.put(entry.getKey(), entry.getValue());
+            result.add(stateCountMap);
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<Map<String, Integer>> getStudentsPerCity() {
+        Map<String, Integer> map = new HashMap<>();
+        List<Student> studentList = findAll();
+
+        for (Student s : studentList) {
+            String city = s.getAddress().getCity();
+            map.put(city, map.getOrDefault(city, 0) + 1);
+        }
+
+        List<Map<String, Integer>> result = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            Map<String, Integer> cityCountMap = new HashMap<>();
+            cityCountMap.put(entry.getKey(), entry.getValue());
+            result.add(cityCountMap);
+        }
+
+        return result;
     }
 }

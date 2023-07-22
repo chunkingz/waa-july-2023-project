@@ -35,9 +35,12 @@ public class AddressServiceImpl implements AddressService {
         if (!addressRepo.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Address with id "+id+" not found");
         }
-        addressRepo.deleteById(id);
+        Address existingAddress = getAddressById(id);
+        existingAddress.setIsDeleted(existingAddress.getIsDeleted());
+        addressRepo.save(existingAddress);
     }
+
     public List<Address> getAllAddresses(){
-        return addressRepo.findAll();
+        return addressRepo.findAllActiveAddress();
     }
 }

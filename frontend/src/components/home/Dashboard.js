@@ -1,247 +1,148 @@
-import { Link } from "react-router-dom";
+import axios from 'axios';
+import ReactEcharts from 'echarts-for-react';
+import { useEffect, useState } from 'react';
 
 const Dashboard = () => {
-    return ( 
-        <>
-            <h2>Welcome to the dashboard</h2>
-            <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-      <Link className="navbar-brand col-sm-3 col-md-2 mr-0" to="#">Company name</Link>
-      <input className="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" />
-      <ul className="navbar-nav px-3">
-        <li className="nav-item text-nowrap">
-          <Link className="nav-link" to="#">Sign out</Link>
-        </li>
-      </ul>
-    </nav>
 
-    <div className="container-fluid">
-      <div className="row">
-        <nav className="col-md-2 d-none d-md-block bg-light sidebar">
-          <div className="sidebar-sticky">
-            <ul className="nav flex-column">
-              <li className="nav-item">
-                <Link className="nav-link active" to="#">
-                  <span data-feather="home"></span>
-                  Dashboard <span className="sr-only">(current)</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="#">
-                  <span data-feather="file"></span>
-                  Orders
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="#">
-                  <span data-feather="shopping-cart"></span>
-                  Products
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="#">
-                  <span data-feather="users"></span>
-                  Customers
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="#">
-                  <span data-feather="bar-chart-2"></span>
-                  Reports
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="#">
-                  <span data-feather="layers"></span>
-                  Integrations
-                </Link>
-              </li>
-            </ul>
+  const [cityData, setCityData] = useState('');
+  const [stateData, setStateData] = useState('');
 
-            <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Saved reports</span>
-              <Link className="d-flex align-items-center text-muted" to="#">
-                <span data-feather="plus-circle"></span>
-              </Link>
-            </h6>
-            <ul className="nav flex-column mb-2">
-              <li className="nav-item">
-                <Link className="nav-link" to="#">
-                  <span data-feather="file-text"></span>
-                  Current month
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="#">
-                  <span data-feather="file-text"></span>
-                  Last quarter
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="#">
-                  <span data-feather="file-text"></span>
-                  Social engagement
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="#">
-                  <span data-feather="file-text"></span>
-                  Year-end sale
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </nav>
+  useEffect(() => {
 
-        <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-4">
-          <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 className="h2">Dashboard</h1>
-            <div className="btn-toolbar mb-2 mb-md-0">
-              <div className="btn-group mr-2">
-                <button className="btn btn-sm btn-outline-secondary">Share</button>
-                <button className="btn btn-sm btn-outline-secondary">Export</button>
-              </div>
-              <button className="btn btn-sm btn-outline-secondary dropdown-toggle">
-                <span data-feather="calendar"></span>
-                This week
-              </button>
-            </div>
-          </div>
+    fetchData();
 
-          <canvas className="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+  }, []);
 
-          <h2>Section title</h2>
-          <div className="table-responsive">
-            <table className="table table-striped table-sm">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1,001</td>
-                  <td>Lorem</td>
-                  <td>ipsum</td>
-                  <td>dolor</td>
-                  <td>sit</td>
-                </tr>
-                <tr>
-                  <td>1,002</td>
-                  <td>amet</td>
-                  <td>consectetur</td>
-                  <td>adipiscing</td>
-                  <td>elit</td>
-                </tr>
-                <tr>
-                  <td>1,003</td>
-                  <td>Integer</td>
-                  <td>nec</td>
-                  <td>odio</td>
-                  <td>Praesent</td>
-                </tr>
-                <tr>
-                  <td>1,003</td>
-                  <td>libero</td>
-                  <td>Sed</td>
-                  <td>cursus</td>
-                  <td>ante</td>
-                </tr>
-                <tr>
-                  <td>1,004</td>
-                  <td>dapibus</td>
-                  <td>diam</td>
-                  <td>Sed</td>
-                  <td>nisi</td>
-                </tr>
-                <tr>
-                  <td>1,005</td>
-                  <td>Nulla</td>
-                  <td>quis</td>
-                  <td>sem</td>
-                  <td>at</td>
-                </tr>
-                <tr>
-                  <td>1,006</td>
-                  <td>nibh</td>
-                  <td>elementum</td>
-                  <td>imperdiet</td>
-                  <td>Duis</td>
-                </tr>
-                <tr>
-                  <td>1,007</td>
-                  <td>sagittis</td>
-                  <td>ipsum</td>
-                  <td>Praesent</td>
-                  <td>mauris</td>
-                </tr>
-                <tr>
-                  <td>1,008</td>
-                  <td>Fusce</td>
-                  <td>nec</td>
-                  <td>tellus</td>
-                  <td>sed</td>
-                </tr>
-                <tr>
-                  <td>1,009</td>
-                  <td>augue</td>
-                  <td>semper</td>
-                  <td>porta</td>
-                  <td>Mauris</td>
-                </tr>
-                <tr>
-                  <td>1,010</td>
-                  <td>massa</td>
-                  <td>Vestibulum</td>
-                  <td>lacinia</td>
-                  <td>arcu</td>
-                </tr>
-                <tr>
-                  <td>1,011</td>
-                  <td>eget</td>
-                  <td>nulla</td>
-                  <td>className</td>
-                  <td>aptent</td>
-                </tr>
-                <tr>
-                  <td>1,012</td>
-                  <td>taciti</td>
-                  <td>sociosqu</td>
-                  <td>ad</td>
-                  <td>litora</td>
-                </tr>
-                <tr>
-                  <td>1,013</td>
-                  <td>torquent</td>
-                  <td>per</td>
-                  <td>conubia</td>
-                  <td>nostra</td>
-                </tr>
-                <tr>
-                  <td>1,014</td>
-                  <td>per</td>
-                  <td>inceptos</td>
-                  <td>himenaeos</td>
-                  <td>Curabitur</td>
-                </tr>
-                <tr>
-                  <td>1,015</td>
-                  <td>sodales</td>
-                  <td>ligula</td>
-                  <td>in</td>
-                  <td>libero</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </main>
-      </div>
-    </div>
-        </>
-     );
+  const fetchData = async () => {
+
+    try {
+
+      const response1 = await axios.get('/auth/studentsPerState');
+
+      setCityData(response1.data);
+
+      const response2 = await axios.get('/auth/studentsPerCity');
+
+      setStateData(response2.data);
+
+    } catch (error) {
+
+      console.error('Error fetching data:', error);
+
+    }
+
+  };
+
+  const cities = [];
+
+  const studentPerCityCounter = [];
+
+  const states = [];
+
+  const studentPerStateCounter = [];
+
+
+  if (cityData && stateData) {
+
+    cityData.forEach(entry => {
+
+      const [city, count] = Object.entries(entry)[0]; // Get the first key-value pair
+
+      cities.push(city); // Push the city into the cities array
+
+      studentPerCityCounter.push(count); // Push the count into the studentCounts array
+
+    });
+    
+    stateData.forEach(entry => {
+
+      const [state, count] = Object.entries(entry)[0]; // Get the first key-value pair
+
+      states.push(state); // Push the state into the states array
+
+      studentPerStateCounter.push(count); // Push the count into the studentCounts array
+
+    });
+
+  }
+
+
+  const cityOption = {
+
+    title: {
+
+      text: 'Number of Students in Each City',
+
+    },
+
+    tooltip: {},
+
+    xAxis: {
+
+      data: cities,
+
+    },
+
+    yAxis: {},
+
+    series: [
+
+      {
+
+        name: 'Student Count',
+
+        type: 'bar',
+
+        data: studentPerCityCounter,
+
+      },
+
+    ],
+
+  };
+
+  const stateOption = {
+
+    title: {
+
+      text: 'Number of Students in Each State',
+
+    },
+
+    tooltip: {},
+
+    xAxis: {
+
+      data: states,
+
+    },
+
+    yAxis: {},
+
+    series: [
+
+      {
+
+        name: 'Student Count',
+
+        type: 'bar',
+
+        data: studentPerStateCounter,
+
+      },
+
+    ],
+
+  };
+
+
+  return ( 
+    <>
+      <ReactEcharts option={cityOption} style={{ height: '400px' }} />
+      <br />
+      <ReactEcharts option={stateOption} style={{ height: '400px' }} />
+    </>
+  );
 }
- 
+
 export default Dashboard;
