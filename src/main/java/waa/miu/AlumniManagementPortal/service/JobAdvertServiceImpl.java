@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import waa.miu.AlumniManagementPortal.entity.JobAdvert;
+import waa.miu.AlumniManagementPortal.repository.AddressRepo;
 import waa.miu.AlumniManagementPortal.repository.JobAdvertRepo;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import java.util.List;
 public class JobAdvertServiceImpl implements JobAdvertService{
 
     private final JobAdvertRepo jobAdvertRepo;
+    private final AddressRepo addressRepo;
 
     @Override
     public List<JobAdvert> findAll() {
@@ -29,7 +31,18 @@ public class JobAdvertServiceImpl implements JobAdvertService{
 
     @Override
     public JobAdvert create(JobAdvert jobAdvert) {
-        return jobAdvertRepo.save(jobAdvert);
+        addressRepo.save(jobAdvert.getAddress());
+        JobAdvert jobAdvert1=new JobAdvert();
+        jobAdvert1.setCompanyName(jobAdvert.getCompanyName());
+        jobAdvert1.setJobTitle(jobAdvert.getJobTitle());
+        jobAdvert1.setExpectedSalary(jobAdvert.getExpectedSalary());
+        jobAdvert1.setJobDescription(jobAdvert.getJobDescription());
+
+
+
+        jobAdvertRepo.save(jobAdvert1);
+        return jobAdvert1;
+
     }
 
     @Override

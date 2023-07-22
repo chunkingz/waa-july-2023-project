@@ -9,38 +9,38 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/job-adverts")
+@RequestMapping("/auth")
 @CrossOrigin
 public class JobAdvertController {
 
     private final JobAdvertService jobAdvertService;
 
-    @GetMapping
+    @GetMapping("/job-adverts")
     public List<JobAdvert> findAll(){
         return jobAdvertService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/job-adverts/{id}")
     public JobAdvert findById(@PathVariable Long id){
         return jobAdvertService.findById(id);
     }
 
-    @PostMapping
+    @PostMapping("/job-adverts")
     public JobAdvert create(@RequestBody JobAdvert jobAdvert){
         return jobAdvertService.create(jobAdvert);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/job-adverts/{id}")
     public JobAdvert update(@PathVariable Long id, @RequestBody JobAdvert jobAdvert) {
         return jobAdvertService.update(id, jobAdvert);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/job-adverts/{id}")
     public void delete(@PathVariable Long id){
         jobAdvertService.delete(id);
     }
 
-    @GetMapping("/findTop10JobsByDateAdded")
+    @GetMapping("/job-adverts/findTop10JobsByDateAdded")
     public List<JobAdvert> findTop10JobsByDateAdded(){
         return jobAdvertService.findTop10JobsByDateAdded();
     }

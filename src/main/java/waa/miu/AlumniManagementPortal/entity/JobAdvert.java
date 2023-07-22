@@ -25,8 +25,8 @@ public class JobAdvert {
     @ManyToOne
     private Student student;
 
-//    @OneToOne
-//    private Address address;
+  @OneToOne
+   private Address address;
 
 //    @ManyToMany
 //    private List<Student> applicants;
